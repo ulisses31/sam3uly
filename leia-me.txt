@@ -1,0 +1,4 @@
+Some minor changes already done:
+Just changing versions of libraries
+
+Triton seems to be problematic in windows, but the original version should work in Linux.
