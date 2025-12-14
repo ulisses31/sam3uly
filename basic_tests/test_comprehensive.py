@@ -4,7 +4,8 @@ Tests basic imports, utilities, and core components
 """
 
 import sys
-sys.path.insert(0, r"c:\Dropbox\Code Robotics Books\sam3uly")
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 print("=" * 70)
 print("SAM3 COMPREHENSIVE TEST")

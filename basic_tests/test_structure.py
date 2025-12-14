@@ -7,7 +7,7 @@ print("SAM3 Basic Structure Test")
 print("=" * 60)
 
 # Check if sam3 directory exists
-sam3_path = r"c:\Dropbox\Code Robotics Books\sam3uly\sam3"
+sam3_path = os.path.join(os.path.dirname(__file__), '..', 'sam3')
 if os.path.exists(sam3_path):
     print(f"✓ SAM3 directory found: {sam3_path}")
 else:
@@ -24,7 +24,7 @@ for item in os.listdir(sam3_path):
         print(f"  📄 {item}")
 
 # Check examples
-examples_path = r"c:\Dropbox\Code Robotics Books\sam3uly\examples"
+examples_path = os.path.join(os.path.dirname(__file__), '..', 'examples')
 if os.path.exists(examples_path):
     print(f"\n✓ Examples directory found")
     print("Available example notebooks:")

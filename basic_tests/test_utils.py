@@ -4,7 +4,7 @@ import sys
 import os
 
 # Add sam3 to path
-sys.path.insert(0, r"c:\Dropbox\Code Robotics Books\sam3uly")
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 print("Testing SAM3 Utilities")
 print("=" * 60)

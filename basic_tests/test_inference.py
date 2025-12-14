@@ -5,7 +5,6 @@ Using downloaded model weights to perform actual segmentation
 
 import sys
 import os
-sys.path.insert(0, r"c:\Dropbox\Code Robotics Books\sam3uly")
 
 import torch
 import numpy as np
@@ -47,8 +46,8 @@ if torch.cuda.is_available():
 print("\n4. Loading SAM3 model...")
 try:
     # Try HuggingFace cache first
-    model_path = r"C:\Users\pinto\.cache\huggingface\hub\models--facebook--sam3"
-    bpe_path = r"C:\Dropbox\Code Robotics Books\sam3uly\assets\bpe_simple_vocab_16e6.txt.gz"
+    model_path = os.path.expanduser("~/.cache/huggingface/hub/models--facebook--sam3")
+    bpe_path = os.path.join(os.path.dirname(__file__), '..', 'assets', 'bpe_simple_vocab_16e6.txt.gz')
     
     print(f"   BPE vocab: {bpe_path}")
     print(f"   Loading model from HuggingFace cache...")
@@ -61,7 +60,7 @@ except Exception as e:
     print(f"   ✗ Failed to load model: {e}")
     print("\n   Trying alternative model path...")
     try:
-        checkpoint_path = r"C:\Dropbox\Code Robotics Books\sam3-models-weights\sam3.pt"
+        checkpoint_path = os.path.join(os.path.dirname(__file__), '..', 'sam3-models-weights', 'sam3.pt')
         print(f"   Loading from: {checkpoint_path}")
         
         model = build_sam3_image_model(bpe_path=bpe_path, checkpoint=checkpoint_path)
@@ -75,7 +74,7 @@ except Exception as e:
 # Load test image
 print("\n5. Loading test image...")
 try:
-    image_path = r"C:\Dropbox\Code Robotics Books\sam3uly\assets\images\test_image.jpg"
+    image_path = os.path.join(os.path.dirname(__file__), '..', 'assets', 'images', 'test_image.jpg')
     image = Image.open(image_path)
     width, height = image.size
     print(f"   Image: {image_path}")
@@ -113,7 +112,7 @@ try:
         print(f"   No masks found")
     
     # Save result
-    output_path = r"C:\Dropbox\Code Robotics Books\sam3uly\basic_tests\output_text_prompt.png"
+    output_path = os.path.join(os.path.dirname(__file__), 'output_text_prompt.png')
     fig = plot_results(image.copy(), inference_state)
     if fig is not None:
         plt.savefig(output_path, bbox_inches='tight', dpi=150)
@@ -147,7 +146,7 @@ try:
         print(f"   Found {len(masks)} mask(s)")
     
     # Save result
-    output_path = r"C:\Dropbox\Code Robotics Books\sam3uly\basic_tests\output_box_prompt.png"
+    output_path = os.path.join(os.path.dirname(__file__), 'output_box_prompt.png')
     fig = plot_results(image.copy(), inference_state)
     if fig is not None:
         plt.savefig(output_path, bbox_inches='tight', dpi=150)

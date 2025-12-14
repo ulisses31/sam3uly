@@ -5,7 +5,7 @@ Using downloaded model weights to perform segmentation and save results
 
 import sys
 import os
-sys.path.insert(0, r"c:\Dropbox\Code Robotics Books\sam3uly")
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 import torch
 import numpy as np
@@ -39,13 +39,13 @@ if torch.cuda.is_available():
 
 # Load model
 print("\n3. Loading SAM3 model...")
-bpe_path = r"C:\Dropbox\Code Robotics Books\sam3uly\assets\bpe_simple_vocab_16e6.txt.gz"
+bpe_path = r"./assets/bpe_simple_vocab_16e6.txt.gz"
 model = build_sam3_image_model(bpe_path=bpe_path)
 print(f"   ✓ Model loaded on {next(model.parameters()).device}")
 
 # Load test image
 print("\n4. Loading test image...")
-image_path = r"C:\Dropbox\Code Robotics Books\sam3uly\assets\images\test_image.jpg"
+image_path = r"./assets/images/test_image.jpg"
 image = Image.open(image_path)
 width, height = image.size
 print(f"   Size: {width}x{height}")
@@ -111,7 +111,7 @@ print("\n6. Test 1: Text prompt 'shoe'...")
 processor.reset_all_prompts(inference_state)
 inference_state = processor.set_text_prompt(state=inference_state, prompt="shoe")
 
-output_path = r"C:\Dropbox\Code Robotics Books\sam3uly\basic_tests\result_shoe.png"
+    output_path = os.path.join(os.path.dirname(__file__), 'result_shoe.png')
 save_results(image.copy(), inference_state, output_path, "SAM3: Text Prompt 'shoe'")
 
 # Test 2: Text prompt - "person"
@@ -119,7 +119,7 @@ print("\n7. Test 2: Text prompt 'person'...")
 processor.reset_all_prompts(inference_state)
 inference_state = processor.set_text_prompt(state=inference_state, prompt="person")
 
-output_path = r"C:\Dropbox\Code Robotics Books\sam3uly\basic_tests\result_person.png"
+    output_path = os.path.join(os.path.dirname(__file__), 'result_person.png')
 save_results(image.copy(), inference_state, output_path, "SAM3: Text Prompt 'person'")
 
 # Test 3: Box prompt
@@ -133,7 +133,7 @@ inference_state = processor.add_geometric_prompt(
     state=inference_state, box=norm_box_cxcywh, label=True
 )
 
-output_path = r"C:\Dropbox\Code Robotics Books\sam3uly\basic_tests\result_box.png"
+    output_path = os.path.join(os.path.dirname(__file__), 'result_box.png')
 save_results(image.copy(), inference_state, output_path, "SAM3: Box Prompt")
 
 # Test 4: Different text prompt - "table"
@@ -141,7 +141,7 @@ print("\n9. Test 4: Text prompt 'table'...")
 processor.reset_all_prompts(inference_state)
 inference_state = processor.set_text_prompt(state=inference_state, prompt="table")
 
-output_path = r"C:\Dropbox\Code Robotics Books\sam3uly\basic_tests\result_table.png"
+    output_path = os.path.join(os.path.dirname(__file__), 'result_table.png')
 save_results(image.copy(), inference_state, output_path, "SAM3: Text Prompt 'table'")
 
 print("\n" + "=" * 70)

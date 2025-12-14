@@ -1,7 +1,8 @@
 """Simple SAM3 box operations test - no problematic dependencies"""
 
 import sys
-sys.path.insert(0, r"c:\Dropbox\Code Robotics Books\sam3uly")
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 import torch
 from sam3.model.box_ops import box_xywh_to_cxcywh, box_cxcywh_to_xyxy

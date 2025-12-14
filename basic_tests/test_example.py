@@ -5,7 +5,7 @@ Tests imports, tensor operations, and basic utilities without model weights
 
 import sys
 import os
-sys.path.insert(0, r"c:\Dropbox\Code Robotics Books\sam3uly")
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 import torch
 import numpy as np
