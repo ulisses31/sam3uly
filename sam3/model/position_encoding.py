@@ -1,6 +1,7 @@
 # Copyright (c) Meta Platforms, Inc. and affiliates. All Rights Reserved
 
 import math
+import warnings
 from typing import Optional
 
 import torch
@@ -43,11 +44,29 @@ class PositionEmbeddingSine(nn.Module):
                 (precompute_resolution // 16, precompute_resolution // 16),
                 (precompute_resolution // 32, precompute_resolution // 32),
             ]
+            # Try CUDA first, fall back to CPU if CUDA is not available or incompatible
+            device = "cuda" if torch.cuda.is_available() else "cpu"
             for size in precompute_sizes:
-                tensors = torch.zeros((1, 1) + size, device="cuda")
-                self.forward(tensors)
-                # further clone and detach it in the cache (just to be safe)
-                self.cache[size] = self.cache[size].clone().detach()
+                try:
+                    tensors = torch.zeros((1, 1) + size, device=device)
+                    self.forward(tensors)
+                    # further clone and detach it in the cache (just to be safe)
+                    self.cache[size] = self.cache[size].clone().detach()
+                except RuntimeError as e:
+                    # If CUDA fails (e.g., incompatible GPU), fall back to CPU
+                    if device == "cuda" and "CUDA" in str(e):
+                        device = "cpu"
+                        warnings.warn(
+                            f"CUDA unavailable or incompatible for position encoding precomputation. "
+                            f"Falling back to CPU (slower). Original error: {str(e)}",
+                            RuntimeWarning,
+                            stacklevel=2
+                        )
+                        tensors = torch.zeros((1, 1) + size, device=device)
+                        self.forward(tensors)
+                        self.cache[size] = self.cache[size].clone().detach()
+                    else:
+                        raise
 
     def _encode_xy(self, x, y):
         # The positions are expected to be normalized

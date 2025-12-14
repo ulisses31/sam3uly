@@ -113,11 +113,14 @@ try:
     
     # Save result
     output_path = os.path.join(os.path.dirname(__file__), 'output_text_prompt.png')
-    fig = plot_results(image.copy(), inference_state)
-    if fig is not None:
+    try:
+        plot_results(image.copy(), inference_state)
+        fig = plt.gcf()
         plt.savefig(output_path, bbox_inches='tight', dpi=150)
         plt.close()
-        print(f"   ✓ Result saved to: output_text_prompt.png")
+        print(f"   ✓ Result saved to: {output_path}")
+    except Exception as save_e:
+        print(f"   ⚠ Could not save visualization: {save_e}")
     
 except Exception as e:
     print(f"   ✗ Failed: {e}")
@@ -147,11 +150,14 @@ try:
     
     # Save result
     output_path = os.path.join(os.path.dirname(__file__), 'output_box_prompt.png')
-    fig = plot_results(image.copy(), inference_state)
-    if fig is not None:
+    try:
+        plot_results(image.copy(), inference_state)
+        fig = plt.gcf()
         plt.savefig(output_path, bbox_inches='tight', dpi=150)
         plt.close()
-        print(f"   ✓ Result saved to: output_box_prompt.png")
+        print(f"   ✓ Result saved to: {output_path}")
+    except Exception as save_e:
+        print(f"   ⚠ Could not save visualization: {save_e}")
     
 except Exception as e:
     print(f"   ✗ Failed: {e}")
